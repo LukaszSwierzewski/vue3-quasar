@@ -13,7 +13,7 @@ export default function uselocalStorage() {
     function isAlreadyAdded(obj, list, key) {
       return list.some(elem => elem[key] === obj[key])
   }
-  function addOrRemoveFavorite (user) {
+  function toggleFavorite (user) {
     const isAdded = isAlreadyAdded(user, favoriteUsers.value, 'id')
     if (isAdded) {
       const index = favoriteUsers.value.findIndex(key => key.id === user.id);
@@ -25,5 +25,5 @@ export default function uselocalStorage() {
     }
     saveToLocalStorage('favorite', favoriteUsers.value)
   }
-    return { saveToLocalStorage, getFromLocalStorage, isAlreadyAdded, addOrRemoveFavorite, favoriteUsers };
+    return { saveToLocalStorage, getFromLocalStorage, isAlreadyAdded, toggleFavorite, favoriteUsers };
   }

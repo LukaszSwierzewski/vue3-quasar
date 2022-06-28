@@ -26,7 +26,11 @@
 
         <q-item-section top side>
           <div class="text-grey-8">
-            <q-btn @click="addOrRemoveFavorite(user)" class="gt-xs" size="20px" flat dense round :class="{isChecked: user.checked}" icon="favorite"></q-btn>
+            <FavoriteIconBtn 
+              :toggle-favorite="toggleFavorite"
+              :user="user"
+              :isChecked="user.checked"
+            />
           </div>
         </q-item-section>
       </q-item>
@@ -39,7 +43,7 @@
   </div>
   
   <div v-else-if="!state.isLoading && state.users.length === 0">
-    something went wrong. <router-link to="/users/1">go back to main page</router-link>
+    <DataFetchError/>
   </div> 
 </template>
 
@@ -48,53 +52,50 @@ import { onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from 'vue-router';
 import useUtilities from '@/composable/useUtil.js'
 import uselocalStorage from "@/composable/useLocalStorage";
+import DataFetchError from "../../components/DataFetchError.vue";
+import FavoriteIconBtn from "@/components/FavoriteIconBtn.vue";
 export default {
-  name: "IndexPage",
-  setup() {
-    const route = useRoute();
-    const router = useRouter()
-    const currentPage = ref(Number(route.params.page))
-    const changePage = (payload) => {
-      router.push(`/users/${payload}`)
-    }
-    const searchText = ref('')
-    const searchUsers = (text) => {
-      const filteredUser = state.users.filter(user => {
-        return user.first_name.toLowerCase().includes(text.toLowerCase())
-      })
-      return filteredUser
-    }
-    const state = reactive({
-      users: null,
-      isLoading: true,
-      totalPages: null
-    });
-    const { favoriteUsers, addOrRemoveFavorite } = uselocalStorage()
-    const { checkIfExistAndAddKeyValue, checkIfNaN } = useUtilities();
-    onMounted(async () => {
-      checkIfNaN(route.params.page) ? router.push('/users/1') : null
-      const response = await fetch(`https://reqres.in/api/users?page=${route.params.page}`);
-      const res = await response.json();
-      checkIfExistAndAddKeyValue(res.data, favoriteUsers.value, "id", "checked", true);
-      state.users = res.data;
-      state.isLoading = false
-      state.totalPages = Number(res.total_pages);
-    });
-
-    return {
-      state,
-      currentPage,
-      changePage,
-      searchUsers,
-      searchText,
-      addOrRemoveFavorite,
-      favoriteUsers
-    };
-  }
+    name: "IndexPage",
+    setup() {
+        const route = useRoute();
+        const router = useRouter();
+        const currentPage = ref(Number(route.params.page));
+        const changePage = (payload) => {
+            router.push(`/users/${payload}`);
+        };
+        const searchText = ref("");
+        const searchUsers = (text) => {
+            const filteredUser = state.users.filter(user => {
+                return user.first_name.toLowerCase().includes(text.toLowerCase());
+            });
+            return filteredUser;
+        };
+        const state = reactive({
+            users: null,
+            isLoading: true,
+            totalPages: null
+        });
+        const { favoriteUsers, toggleFavorite } = uselocalStorage();
+        const { checkIfExistAndAddKeyValue, checkIfNaN } = useUtilities();
+        onMounted(async () => {
+            checkIfNaN(route.params.page) ? router.push("/users/1") : null;
+            const response = await fetch(`https://reqres.in/api/users?page=${route.params.page}`);
+            const res = await response.json();
+            checkIfExistAndAddKeyValue(res.data, favoriteUsers.value, "id", "checked", true);
+            state.users = res.data;
+            state.isLoading = false;
+            state.totalPages = Number(res.total_pages);
+        });
+        return {
+            state,
+            currentPage,
+            changePage,
+            searchUsers,
+            searchText,
+            toggleFavorite,
+            favoriteUsers
+        };
+    },
+    components: { DataFetchError, FavoriteIconBtn }
 };
 </script>
-<style lang="scss" scoped>
-.isChecked {
-  color: green;
-}
-</style>
