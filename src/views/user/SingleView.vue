@@ -8,7 +8,7 @@
       <FavoriteIconBtn :toggle-favorite="toggleFavorite" :user="state.user" :isChecked="state.user.checked" />
       {{ isFav ? 'You really like this person!' : "It is not your favorite person :(" }}
       <template v-slot:action>
-        <q-btn flat label="Go back to Users" to="/users/1"></q-btn>
+        <q-btn flat label="<- Go back to Users" to="/users/1"></q-btn>
       </template>
     </q-banner>
   </div>
