@@ -38,7 +38,7 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container class="row">
+    <q-page-container class="row max-width">
       <router-view class="col-12 q-pa-sm" :key="$route.path"  />
     </q-page-container>
   </q-layout>
@@ -59,3 +59,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+.max-width {
+  max-width: 140rem;
+  margin: auto;
+}
+</style>
