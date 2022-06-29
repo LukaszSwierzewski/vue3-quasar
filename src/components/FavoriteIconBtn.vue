@@ -1,5 +1,5 @@
 <template>
-<q-btn @click="toggleFavorite(user)" class="gt-xs" size="20px" flat dense round :class="{isChecked: isChecked}" icon="favorite"></q-btn>
+<q-btn @click="toggleFavorite(user)" size="20px" flat dense round :class="{isChecked: isChecked}" icon="favorite"></q-btn>
 </template>
 
 <script>

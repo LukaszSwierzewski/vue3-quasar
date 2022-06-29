@@ -1,12 +1,12 @@
 <template>
   <div v-if="!state.isLoading" class="about">
-    <h1>Page about {{ state.user.first_name }}</h1>
+    <h1 class='h1'>Page about {{ state.user.first_name }}</h1>
     <q-banner rounded class="bg-grey-3">
       <template v-slot:avatar>
         <img :src="state.user.avatar" style="width: 100px; height: 64px">
       </template>      
       <FavoriteIconBtn :toggle-favorite="toggleFavorite" :user="state.user" :isChecked="state.user.checked" />
-      {{ isFav ? 'You really like this person!' : "It is not your favorite person :(" }}
+      <span>{{ isFav ? 'You really like this person!' : "It is not your favorite person :(" }}</span>
       <template v-slot:action>
         <q-btn flat label="<- Go back to Users" to="/users/1"></q-btn>
       </template>
@@ -49,3 +49,8 @@ export default {
 }
 
 </script>
+<style scoped>
+.h1 {
+  font-size: 2rem;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div v-if="!state.isLoading && state.users.length > 0" class="home">
-    <q-list bordered class="rounded-borders" style="max-width: 1200px; width: 500px;">
+    <q-list bordered class="rounded-borders">
       <q-item-label header>
         <q-input v-model="searchText" @input="searchUsers(searchText)" label="Search for user (by name)"></q-input>
       </q-item-label>

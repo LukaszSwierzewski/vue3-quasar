@@ -38,8 +38,8 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container class="center-layout">
-      <router-view :key="$route.path"  />
+    <q-page-container class="row">
+      <router-view class="col-12 q-pa-sm" :key="$route.path"  />
     </q-page-container>
   </q-layout>
 </template>
@@ -59,10 +59,3 @@ export default {
   }
 }
 </script>
-<style scoped lang="scss">
-.center-layout {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-</style>
